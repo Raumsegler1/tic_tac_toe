@@ -13,9 +13,9 @@ class TicTacToeLogic
 
   def input(player)
     puts "#{player} select your position:"
-    choice = gets.chomp.to_i
-    if choice.positive? && choice < 10
-      choice
+    choice_new = gets.chomp.to_i
+    if choice_new.positive? && choice_new < 10 && !played?(choice_new)
+      choice_new
     else
       puts 'invalid input, pls try again'
       input(player)
@@ -23,7 +23,7 @@ class TicTacToeLogic
   end
 
   def played?(choice)
-    game_array[choice] == player_symbol1 || game_array[choice] == player_symbol2
+    game_array[choice - 1] == player_symbol1 || game_array[choice - 1] == player_symbol2
   end
 
   def display
@@ -42,15 +42,20 @@ class TicTacToeLogic
     end
   end
 
-  def over?(choice, num)
-    row?(choice, 1, 2, 3, num) ||
-      row?(choice, 4, 5, 6, num) ||
-      row?(choice, 7, 8, 9, num) ||
-      row?(choice, 1, 4, 7, num) ||
-      row?(choice, 2, 5, 8, num) ||
-      row?(choice, 3, 6, 9, num) ||
-      row?(choice, 1, 5, 9, num) ||
-      row?(choice, 7, 5, 3, num)
+  def over?(num)
+    if row?(game_array, 1, 2, 3, num) ||
+       row?(game_array, 4, 5, 6, num) ||
+       row?(game_array, 7, 8, 9, num) ||
+       row?(game_array, 1, 4, 7, num) ||
+       row?(game_array, 2, 5, 8, num) ||
+       row?(game_array, 3, 6, 9, num) ||
+       row?(game_array, 1, 5, 9, num) ||
+       row?(game_array, 7, 5, 3, num)
+
+      return true
+    end
+
+    false
   end
 
   private

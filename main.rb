@@ -1,8 +1,33 @@
 require_relative 'lib/tic_tac_toe_logic'
 
+def play_round(player1, player2, game, i)
+  game.display
+  current_play = game.input('player1')
+  game.play(player1, current_play)
+  if game.over?(1)
+    game.display
+    puts 'player1 has won'
+    return false
+  end
+  i[0] += 1
+  return false if i[0] == 9
+
+  game.display
+  current_play = game.input('player2')
+  game.play(player2, current_play)
+  if game.over?(2)
+    game.display
+    puts 'player2 has won'
+    return false
+  end
+  i[0] += 1
+  return false if i[0] == 9
+
+  true
+end
+
 def play_game
-  current_play = ''
-  ongoing = true
+  i = [0, 'lol']
 
   puts 'which symbol should represent player1'
   player1 = gets.chomp
@@ -12,54 +37,10 @@ def play_game
 
   game = TicTacToeLogic.new(player1, player2)
 
-  def play_round(var, player1, player2, game)
-    game.display
-    current_play = game.input('player2')
-    while game.played?(current_play)
-      puts 'invalid input, try again'
-      current_play = game.input('player2')
-    end
-    game.play(player2, current_play)
-    if game.over?(current_play, 2)
-      game.display
-      puts 'player2 has won'
-      var = false
-    end
-
-    game.display
-    current_play = game.input('player1')
-    while game.played?(current_play)
-      puts 'invalid input, try again'
-      current_play = game.input('player1')
-    end
-    game.play(player1, current_play)
-    if game.over?(current_play, 1)
-      game.display
-      puts 'player1 has won'
-      var = false
-    end
+  until i[0] == 9
+    break unless play_round(player1, player2, game, i)
   end
-
-  while ongoing
-    game.display
-    current_play = game.input('player1')
-    while game.played?(current_play)
-      puts 'invalid input, try again'
-      current_play = game.input('player1')
-    end
-    game.play(player1, current_play)
-    if game.over?(current_play, 1)
-      game.display
-      puts 'player1 has won'
-      ongoing = false
-    end
-
-    4.times do
-      play_round(ongoing, player1, player2, game)
-    end
-    puts 'Its a tie'
-    ongoing = false
-  end
+  puts 'Its a tie' if i[0] == 9
 end
 
 play_game
