@@ -37,9 +37,7 @@ def play_game
 
   game = TicTacToeLogic.new(player1, player2)
 
-  until i[0] == 9
-    break unless play_round(player1, player2, game, i)
-  end
+  break unless play_round(player1, player2, game, i) until i[0] == 9
   puts 'Its a tie' if i[0] == 9
 end
 
